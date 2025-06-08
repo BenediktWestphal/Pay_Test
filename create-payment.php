@@ -1,11 +1,10 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-// API-Key aus Umgebungsvariable holen
-$apiKey = getenv('MOLLIE_API_KEY');
+$apiKey = trim(getenv('MOLLIE_API_KEY'), "'= ");
 
-if (!$apiKey) {
-    die("MOLLIE_API_KEY nicht gesetzt!");
+if (!$apiKey || strlen($apiKey) < 30) {
+    die("Ungültiger oder fehlender MOLLIE_API_KEY: " . htmlspecialchars($apiKey));
 }
 
 $mollie = new \Mollie\Api\MollieApiClient();
